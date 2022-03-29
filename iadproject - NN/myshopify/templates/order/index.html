@@ -1,0 +1,171 @@
+{% extends 'order/layout1.html'%}
+{% block title %}
+      My Shopping Website-  Home
+{% endblock %}
+{% block body %}
+<!-- Card -->
+{% load cart %}
+
+
+<div class="container my-4 ">
+  <div class="row">
+      <!-- filter-->
+
+
+
+      <div class="col-lg-3 my-3 mb-3 ">
+        <div class="list-group">
+              <a href="/" class="list-group-item list-group-item-action list-group-item-dark">All Products</a>
+            {% for category in categories%}
+            <a href="/?category={{category.id}}" class="list-group-item list-group-item-action list-group-item-dark">{{category.name}}</a>
+
+            {% endfor %}
+          </div>
+      </div>
+
+      <div id=products class="col-lg-9" >
+      <div class="row mx-3">
+          {% for product in products %}
+       <div class="card mx-5 my-4" id={{product.id}} style="width:18rem;">
+        <div class="view overlay z-depth-2 rounded">
+          <img class="img-box mx-10 " style="display: block;  margin-top:10px;margin-left: auto;  margin-right: auto;  width:250px ;  margin-bottom: 0px;height:250px;
+                                                border-style: none;" src="{{product.image.url}}"
+            alt="Sample">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <div class="text-center pt-4">
+          <h5>{{product.name}}</h5>
+          <p class="small text-muted text-uppercase mb-2"></p>
+          <p class="item-price"> <b>Rs.{{product.price}} </b></p>
+
+          <!--{{product | is_in_cart:request.session.cart}}-->
+
+
+           <a href="{% url 'productdetails' product.id %}"  <button  id="qv{{i.id}}"  class="btn btn-info cart">Product Details </button></a>
+         </div>
+
+
+
+         <!---added this-->
+
+
+         <div class="card-footer p-1 row no-gutters mx-auto">
+
+          {% if product|is_in_cart:request.session.cart %}
+                  <div class="row no-gutters">
+                    <form action="/#{{product.id}}" class="col-2 " method="post">
+                      {% csrf_token %}
+                      <input hidden type="text" name='product' value='{{product.id}}'>
+                      <input hidden type="text" name='remove' value='True'>
+                      <input type="submit" value=" - " style="background-color:#BA55D3; color:white;"class="btn btn-block btn-light border-right">
+                    </form>
+
+                    <div class="text-center col">{{product|cart_quantity:request.session.cart}} in Cart</div>
+
+                    <form action="/#{{product.id}}" class="col-2 " method="post">
+                      {% csrf_token %}
+
+                      <input hidden type="text" name='product' value='{{product.id}}'>
+                      <input type="submit" value=" + "  style="background-color:#BA55D3; color:white;" class="btn btn-block btn-light border-left">
+                    </form>
+                  </div>
+
+            {% else %}
+
+                  {%  if request.session.customer_id %}
+                  <form action="/#{{product.id}}" method="POST" class="btn-block">
+                    {% csrf_token %}
+                    <input hidden type="text" name='product' value='{{product.id}}'>
+                    <input type="submit" style="background-color:#BA55D3; border:#DDA0DD; color:white;" class="float-right btn btn-light  form-control"
+                      value="Add To Cart">
+                  </form>
+                  {% else %}
+
+                  <!---modal--->
+                  <!-- Button trigger modal -->
+                  
+                              <button type="button" style="background-color:#BA55D3;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                              Add to Cart
+                              </button>
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                        You have to login to add items to your cart
+                                  </div>
+
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+
+                                </div>
+                              </div>
+                              </div>
+                              </div>
+
+                  <!---modal end-->
+
+                  {% endif %}
+          {% endif %}
+         </div>
+
+
+
+
+
+         <!--add this -->
+        </div>
+
+  {% endfor %}
+  </div>
+
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% block js %}
+{% endblock %}
+{% endblock %}
