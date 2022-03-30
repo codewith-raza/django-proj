@@ -1,88 +1,90 @@
 {% extends 'order/layout.html'%}
 {% block body %}
 <div class="container my-4">
-   <h1> Product Details </h1>
-     <div class="row">
-       <div class="col-md-4">
-           <div class="row ">
-              <img src="{{product.image.url}}" width="233px" height="300">
-           </div>
-             {%  if request.session.customer_id %}
-             <form action="/#{{product.id}}" method="POST" class="btn-block">
-               {% csrf_token %}
-               <input hidden type="text" name='product' value='{{product.id}}'>
-               <input type="submit" style="background-color:#BA55D3; border:#DDA0DD; color:white;" class="btn btn-info mx-3 my-3"
-                 value="Add To Cart">
-             </form>
-             {% else %}
-             <!---modal--->
-             <!-- Button trigger modal -->
-                         <button  type="button" style="background-color:#BA55D3;" class="btn btn-info mx-3 my-3" data-toggle="modal" data-target="#exampleModal">
-                         Add to Cart
-                         </button>
-                         <!-- Modal -->
-                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                         <div class="modal-dialog">
-                         <div class="modal-content">
-                           <div class="modal-header">
-                             <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                               <span aria-hidden="true">&times;</span>
-                             </button>
-                           </div>
-                           <div class="modal-body">   You have to login to add items to your cart
-                          </div>
-                           <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-                           </div>
-                         </div>
-                         </div>
-                         </div>
-             <!---modal end-->
-             {% endif %}
-</div>
-       <span class="border border-secondary">
-       <div class="col-md-8 my-5 mx-3">
-              <h5> {{product.name}}</h5>
-              <p> <b>  Rs. {{product.price}}</b></p>
-              <hr>
-               <p>{{product.description}}</p>
-       </div>
-       </span>
-     </div>
-   </div>
-
-
-
-   {% for rev in reviews %}
-   <div class="row my-3 my-5 mx-3">
-       <div class="col-md-1 ">  </div>
-        <div class="col-md-3 " > <img class="rounded mx-auto d-block w-50 h-50 "src="/static/img/user.png" alt=""> </div>
-        <div class="col-md-8">
-         <b>  {{rev.customer}} </b> <small id="emailHelp" class="form-text text-muted" style="color:black;"> {{rev.timestamp}} </small>
-         <div>  {{rev.review}}</div>
+  <h1> Product Details </h1>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row ">
+        <img src="{{product.image.url}}" width="233px" height="300">
+      </div>
+      {%  if request.session.customer_id %}
+      <form action="/#{{product.id}}" method="POST" class="btn-block">
+        {% csrf_token %}
+        <input hidden type="text" name='product' value='{{product.id}}'>
+        <input type="submit" style="background-color:#BA55D3; border:#DDA0DD; color:white;"
+          class="btn btn-info mx-3 my-3" value="Add To Cart">
+      </form>
+      {% else %}
+      <!---modal--->
+      <!-- Button trigger modal -->
+      <button type="button" style="background-color:#BA55D3;" class="btn btn-info mx-3 my-3" data-toggle="modal"
+        data-target="#exampleModal">
+        Add to Cart
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body"> You have to login to add items to your cart
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
         </div>
-   </div>
-   {% endfor %}
+      </div>
+      <!---modal end-->
+      {% endif %}
+    </div>
+    <span class="border border-secondary">
+      <div class="col-md-8 my-5 mx-3">
+        <h5> {{product.name}}</h5>
+        <p> <b> Rs. {{product.price}}</b></p>
+        <hr>
+        <p>{{product.description}}</p>
+      </div>
+    </span>
+  </div>
+</div>
 
+{% for rev in reviews %}
+<div class="row my-3 my-5 mx-3">
+  <div class="col-md-1 "> </div>
+  <div class="col-md-3 "> <img class="rounded mx-auto d-block w-50 h-50 " src="/static/img/user.png" alt=""> </div>
+  <div class="col-md-8">
+    <b> {{rev.customer}} </b> <small id="emailHelp" class="form-text text-muted" style="color:black;"> {{rev.timestamp}}
+    </small>
+    <div> {{rev.review}}</div>
+  </div>
+</div>
+{% endfor %}
 
-   {%  if request.session.customer_id %}
+{%  if request.session.customer_id %}
 <div class="container">
   <div class="row">
-  <div class="col-md-2"> </div>
-  <div class="col-md-10">
-        <form class="" action="{% url 'postreview'  %}" method="post">
-           {% csrf_token %}
-               <div class="form-group">
-                 <label for="exampleInputEmail1"><h3>Post Your Review Here !</h3></label>
-                 <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your Review">
-                 <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
-               </div>
-               <input type="hidden" name="productid" value="{{product.id}}">
-               <input type="hidden" name="customer_id" value="{{request.session.customer_id}}">
-               <input type="submit" name="" value="Post"  style="background-color:#BA55D3;" class="btn btn-info mx-3 my-3">
-             <h4> All reviews above<h4>
-        </form>
+    <div class="col-md-2"> </div>
+    <div class="col-md-10">
+      <form class="" action="{% url 'postreview'  %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">
+            <h3>Post Your Review Here !</h3>
+          </label>
+          <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="Enter Your Review">
+          <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
+        </div>
+        <input type="hidden" name="productid" value="{{product.id}}">
+        <input type="hidden" name="customer_id" value="{{request.session.customer_id}}">
+        <input type="submit" name="" value="Post" style="background-color:#BA55D3;" class="btn btn-info mx-3 my-3">
+        <h4> All reviews above<h4>
+      </form>
     </div>
   </div>
 </div>
@@ -93,37 +95,41 @@
 <div class="container">
   <div class="row">
     <div class="col-md-2"></div>
-      <div class="col-md-10">
-                  <div class="form-group">
-                      <label for="exampleInputEmail1"><h3>Post Your Review Here !</h3></label>
-                      <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your Review">
-                      <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
-                    </div>
-                    <button  type="button" style="background-color:#BA55D3;" class="btn btn-info mx-3 my-3" data-toggle="modal" data-target="#exampleModal">
-                      Post
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                              You have to login to add  your review here
-                        </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-                      </div>
-                    </div>
-                    </div>
-                    </div>
-                    <!---modal end-->
-       </div>
+    <div class="col-md-10">
+      <div class="form-group">
+        <label for="exampleInputEmail1">
+          <h3>Post Your Review Here !</h3>
+        </label>
+        <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Enter Your Review">
+        <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
+      </div>
+      <button type="button" style="background-color:#BA55D3;" class="btn btn-info mx-3 my-3" data-toggle="modal"
+        data-target="#exampleModal">
+        Post
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              You have to login to add your review here
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!---modal end-->
+    </div>
   </div>
 </div>
- {% endif %}
+{% endif %}
 {% endblock %}
