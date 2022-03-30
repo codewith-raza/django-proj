@@ -1,86 +1,87 @@
 {% extends 'order/layout1.html'%}
 {% block title %}
-      My Shopping Website-  Home
+My Shopping Website- Home
 {% endblock %}
 
 
 {% block css %}
 
 .namra {
-  width: 175px;text-align: center;height: 45px;line-height: 20px;background-color: #3a4468;color: #ffffff;bottom: 5%;left: 50%;
-  border: none;
+width: 175px;text-align: center;height: 45px;line-height: 20px;background-color: #3a4468;color: #ffffff;bottom: 5%;left:
+50%;
+border: none;
 }
 .namra:hover {
-  background-color: #8c810f;
+background-color: #8c810f;
 }
 .namra:active:after {
-  padding: 0;
-  margin: 0;
-  opacity: 1;
-  transition: 0s
+padding: 0;
+margin: 0;
+opacity: 1;
+transition: 0s
 }
 
 
 .qty .count {
-    color: #000;
-    display: inline-block;
-    vertical-align: top;
-    font-size: 25px;
-    font-weight: 700;
-    line-height: 30px;
-    padding: 0 2px
-    ;min-width: 35px;
-    text-align: center;
+color: #000;
+display: inline-block;
+vertical-align: top;
+font-size: 25px;
+font-weight: 700;
+line-height: 30px;
+padding: 0 2px
+;min-width: 35px;
+text-align: center;
 }
 .qty .plus {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: top;
-    color: white;
-    width: 30px;
-    height: 30px;
-    font: 30px/1 Arial,sans-serif;
-    text-align: center;
-    border-radius: 50%;
-    }
+cursor: pointer;
+display: inline-block;
+vertical-align: top;
+color: white;
+width: 30px;
+height: 30px;
+font: 30px/1 Arial,sans-serif;
+text-align: center;
+border-radius: 50%;
+}
 .qty .minus {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: top;
-    color: white;
-    width: 30px;
-    height: 30px;
-    font: 30px/1 Arial,sans-serif;
-    text-align: center;
-    border-radius: 50%;
-    background-clip: padding-box;
+cursor: pointer;
+display: inline-block;
+vertical-align: top;
+color: white;
+width: 30px;
+height: 30px;
+font: 30px/1 Arial,sans-serif;
+text-align: center;
+border-radius: 50%;
+background-clip: padding-box;
 }
 div {
-    text-align: center;
+text-align: center;
 }
 .minus:hover{
-    background-color: #717fe0 !important;
+background-color: #717fe0 !important;
 }
 .plus:hover{
-    background-color: #717fe0 !important;
+background-color: #717fe0 !important;
 }
 /*Prevent text selection*/
 span{
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
 }
 input{
-    border: 0;
-    width: 2%;
+border: 0;
+width: 2%;
 }
 nput::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+-webkit-appearance: none;
+margin: 0;
 }
 input:disabled{
-    background-color:white;
+background-color:white;
 }
 
 
@@ -91,113 +92,121 @@ input:disabled{
 <!-- Card -->
 {% load cart %}
 
-  <!-- product section -->
+<!-- product section -->
 
-  <section class="product_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-            <a href="/" style="color: #3a4468;"> Our Products </a>
-        </h2>
-      </div>
-      <div class="row">
-          {% for product in products %}
-        <div class="col-sm-6 col-lg-4">
-          <div class="box">
-            <div class="img-box">
-                <img src="{{product.image.url}}" alt="">
-              <!--a href="" class="add_cart_btn"> <span> Add To Cart</span></a-->
-                <a href="{% url 'productdetails' product.id %}" class="add_cart_btn">
-                   <button class="namra" id="buttonClick">Product Detail </button>
-                       <p></p>
-                  {% if product|is_in_cart:request.session.cart %}
-                          <!--div class="qty mt-5">
+<section class="product_section layout_padding">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>
+        <a href="/" style="color: #3a4468;"> Our Products </a>
+      </h2>
+    </div>
+    <div class="row">
+      {% for product in products %}
+      <div class="col-sm-6 col-lg-4">
+        <div class="box">
+          <div class="img-box">
+            <img src="{{product.image.url}}" alt="">
+            <!--a href="" class="add_cart_btn"> <span> Add To Cart</span></a-->
+            <a href="{% url 'productdetails' product.id %}" class="add_cart_btn">
+              <button class="namra" id="buttonClick">Product Detail </button>
+              <p></p>
+              {% if product|is_in_cart:request.session.cart %}
+              <!--div class="qty mt-5">
                             <span class="minus bg-dark">-</span>
                             <input type="number" class="count" name="qty" value="1">
                             <span class="plus bg-dark">+</span>
                           </div-->
-                          <!--old code-->
-                          <div class="row no-gutters">
-                            <form action="/#{{product.id}}" class="col-2 " method="post">
-                              {% csrf_token %}
-                              <input hidden type="text" name='product' value='{{product.id}}'>
-                              <input hidden type="text" name='remove' value='True'>
-                              <input type="submit" value=" - " style="background-color:#0e2852; color:white;  font-weight: bold; padding:2px 2px 2px 2px; " class="btn btn-block btn-light border-right">
-                            </form>
-                            <div class="text-center col" style="color:#0e2852;font-weight: bold; padding-bottom:5px 5px 5px 5px;">{{product|cart_quantity:request.session.cart}} in Cart</div>
-                            <form action="/#{{product.id}}" class="col-2 " method="post">
-                              {% csrf_token %}
-                              <input hidden type="text" name='product' value='{{product.id}}'>
-                              <input type="submit" value=" + "  style="background-color:#0e2852; color:white; font-weight: bold; padding:2px 2px 2px 2px;" class="btn btn-block btn-light border-left">
-                            </form>
-                          </div>
-                          <!--old code-->
-                          </a>
-                  {% else %}
-                        {%  if request.session.customer_id %}
-                            <form action="/#{{product.id}}" method="POST" class="btn-block">
-                              {% csrf_token %}
-                              <input hidden type="text" name='product' value='{{product.id}}'>
-                              <input type="submit"  class="namra"  value="Add To Cart">
-                            </form>
-                            </a>
-                        {% else %}
-                        </a>
-                                      <!---modal--->
-                                      <!-- Button trigger modal --><!--h1> NAMRA </h1-->
-                                      <a class="add_cart_btn">
-                                          <button type="button" href="/"class="namra" data-toggle="modal" data-target="#exampleModal"  onclick="function_1()"  id="btn1">
-                                          Add to Cart
-                                          </button>
+              <!--old code-->
+              <div class="row no-gutters">
+                <form action="/#{{product.id}}" class="col-2 " method="post">
+                  {% csrf_token %}
+                  <input hidden type="text" name='product' value='{{product.id}}'>
+                  <input hidden type="text" name='remove' value='True'>
+                  <input type="submit" value=" - "
+                    style="background-color:#0e2852; color:white;  font-weight: bold; padding:2px 2px 2px 2px; "
+                    class="btn btn-block btn-light border-right">
+                </form>
+                <div class="text-center col" style="color:#0e2852;font-weight: bold; padding-bottom:5px 5px 5px 5px;">
+                  {{product|cart_quantity:request.session.cart}} in Cart</div>
+                <form action="/#{{product.id}}" class="col-2 " method="post">
+                  {% csrf_token %}
+                  <input hidden type="text" name='product' value='{{product.id}}'>
+                  <input type="submit" value=" + "
+                    style="background-color:#0e2852; color:white; font-weight: bold; padding:2px 2px 2px 2px;"
+                    class="btn btn-block btn-light border-left">
+                </form>
+              </div>
+              <!--old code-->
+            </a>
+            {% else %}
+            {%  if request.session.customer_id %}
+            <form action="/#{{product.id}}" method="POST" class="btn-block">
+              {% csrf_token %}
+              <input hidden type="text" name='product' value='{{product.id}}'>
+              <input type="submit" class="namra" value="Add To Cart">
+            </form>
+            </a>
+            {% else %}
+            </a>
+            <!---modal--->
+            <!-- Button trigger modal -->
+            <!--h1> NAMRA </h1-->
+            <a class="add_cart_btn">
+              <button type="button" href="/" class="namra" data-toggle="modal" data-target="#exampleModal"
+                onclick="function_1()" id="btn1">
+                Add to Cart
+              </button>
 
-                                      </a>
-                                          <!-- Modal -->
-                                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog" role="document">
-                                          <div class="modal-content">
-                                          <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                          </button>
-                                          </div>
-                                          <div class="modal-body">
-                                          you have to login first 
-                                          </div>
-                                          <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
-                                          </div>
-                                          </div>
-                                          </div>
-                                          </div>
-                                          <!---modal end-->
-                        {% endif %}
-                  {% endif %}
-              <br>
-            </div>
-            <div class="detail-box">
-              <h5>
-              <a>  {{product.name}} </a>
-              </h5>
-              <div class="product_info" style="text-align:center">
-                <h5 >
-                  <span> Rs.</span>{{product.price}}
-                </h5>
-                <div class="star_container">
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                 <i class="fa fa-star" aria-hidden="true"></i>
-                 <i class="fa fa-star" aria-hidden="true"></i>
-                 <i class="fa fa-star" aria-hidden="true"></i>
-                 <i class="fa fa-star" aria-hidden="true"></i>
+            </a>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    you have to login first
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <!---modal end-->
+            {% endif %}
+            {% endif %}
+            <br>
+          </div>
+          <div class="detail-box">
+            <h5>
+              <a> {{product.name}} </a>
+            </h5>
+            <div class="product_info" style="text-align:center">
+              <h5>
+                <span> Rs.</span>{{product.price}}
+              </h5>
+              <div class="star_container">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
               </div>
             </div>
           </div>
         </div>
-       {% endfor %}
       </div>
+      {% endfor %}
     </div>
-  </section>
+  </div>
+</section>
 {% endblock %}
 
-  <!-- end product section -->
+<!-- end product section -->

@@ -5,96 +5,105 @@
 
 {% block body %}
 <div class="container my-4">
-<div class="row">
-  <!--1st COLUMN -->
-  <div class="col-6"> <div class="col-xs-12 center-block text-center" style="padding :40px 2px 2px 2px;"> <img src="{{product.image.url}}" width="350px" height="300">
-  <hr>
-  {%  if request.session.customer_id %}
-  <form action="/#{{product.id}}" method="POST" class="btn-block">
-    {% csrf_token %}
-    <input hidden type="text" name='product' value='{{product.id}}'>
-    <input type="submit" style="background-color:#0e2852; border:#0e2852; color:white;" class="btn btn-info mx-3 my-3"
-      value="Add To Cart">
-  </form>
-  </div>
-  {% else %}
-  <!---modal--->
-  <!-- Button trigger modal -->
-              <button  type="button" style="background-color:#0e2852;" class="btn btn-info mx-3 my-3" data-toggle="modal" data-target="#exampleModal">
-              Add to Cart
-              </button>
-              </div>
-              <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">   You have to login first
-               </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-                </div>
-              </div>
-              </div>
-              </div>
-  <!---modal end-->
-  {% endif %}
-  </div>
+  <div class="row">
     <!--1st COLUMN -->
-    <!--2nd COLUMN -->
+    <div class="col-6">
+      <div class="col-xs-12 center-block text-center" style="padding :40px 2px 2px 2px;"> <img
+          src="{{product.image.url}}" width="350px" height="300">
+        <hr>
+        {%  if request.session.customer_id %}
+        <form action="/#{{product.id}}" method="POST" class="btn-block">
+          {% csrf_token %}
+          <input hidden type="text" name='product' value='{{product.id}}'>
+          <input type="submit" style="background-color:#0e2852; border:#0e2852; color:white;"
+            class="btn btn-info mx-3 my-3" value="Add To Cart">
+        </form>
+      </div>
+      {% else %}
+      <!---modal--->
+      <!-- Button trigger modal -->
+      <button type="button" style="background-color:#0e2852;" class="btn btn-info mx-3 my-3" data-toggle="modal"
+        data-target="#exampleModal">
+        Add to Cart
+      </button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body"> You have to login first
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!---modal end-->
+    {% endif %}
+  </div>
+  <!--1st COLUMN -->
+  <!--2nd COLUMN -->
   <div class="col-6">
     <h1> Product Details </h1>
     <h5 style="font-weight: bold;"><u> {{product.name}} </u></h5>
-    <p> <b>  Rs. {{product.price}}</b></p>
+    <p> <b> Rs. {{product.price}}</b></p>
     <hr>
-     <p>{{product.description}}</p>
+    <p>{{product.description}}</p>
   </div>
-    <!--2nd COLUMN -->
+  <!--2nd COLUMN -->
 </div>
 </div>
 
-<div class="newclass" style="padding:30px 30px 30px 30px;"<!--background: rgba(14, 40, 82, 0.6)"-->
+<div class="newclass" style="padding:30px 30px 30px 30px;" <!--background: rgba(14, 40, 82, 0.6)"-->
   <div class="newclass2" style="padding:30px 30px 30px 30px; ">
-  <h1> &nbsp; &nbsp;&nbsp;&nbsp; Product Reviews </h1>
-{% for rev in reviews %}
-<div class="row my-3 my-5 mx-3">
-  <div class="col-md-1 ">  </div>
-     <div class="col-md-3 " style="background: rgba(196, 185, 20, 0.8); padding-top:25px;" > <img class="rounded mx-auto d-block w-50 h-50 "src="/static/img/user.png" alt=""> </div>
+    <h1> &nbsp; &nbsp;&nbsp;&nbsp; Product Reviews </h1>
+    {% for rev in reviews %}
+    <div class="row my-3 my-5 mx-3">
+      <div class="col-md-1 "> </div>
+      <div class="col-md-3 " style="background: rgba(196, 185, 20, 0.8); padding-top:25px;"> <img
+          class="rounded mx-auto d-block w-50 h-50 " src="/static/img/user.png" alt=""> </div>
 
-     <div class="col-md-8"  style=" background: rgba(14, 40, 82, 0.6)">
-      <u><b style=" font-weight: bold; font-size:25px">  {{rev.customer}} </b> </u><p style=" color:#051682;  font-weight: bold;"> {{rev.timestamp}} </p>
-      <div >  {{rev.review}}</div>
-     </div>
+      <div class="col-md-8" style=" background: rgba(14, 40, 82, 0.6)">
+        <u><b style=" font-weight: bold; font-size:25px"> {{rev.customer}} </b> </u>
+        <p style=" color:#051682;  font-weight: bold;"> {{rev.timestamp}} </p>
+        <div> {{rev.review}}</div>
+      </div>
 
-</div>
-{% endfor %}
-</div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 
 <!--Add Review-->
 
-   {%  if request.session.customer_id %}
+{%  if request.session.customer_id %}
 <div class="container">
   <div class="row">
-  <div class="col-md-2"> </div>
-  <div class="col-md-10">
-        <form class="" action="{% url 'postreview'  %}" method="post">
-           {% csrf_token %}
-               <div class="form-group">
-                 <label for="exampleInputEmail1"><h3>Post Your Review Here !</h3></label>
-                 <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your Review">
-                 <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
-               </div>
-               <input type="hidden" name="productid" value="{{product.id}}">
-               <input type="hidden" name="customer_id" value="{{request.session.customer_id}}">
-               <input type="submit" name="" value="Post"  style="background-color:#0e2852; " class="btn btn-info mx-2 my-3 col-lg-2" >
-             <h4> All reviews above<h4>
-        </form>
+    <div class="col-md-2"> </div>
+    <div class="col-md-10">
+      <form class="" action="{% url 'postreview'  %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">
+            <h3>Post Your Review Here !</h3>
+          </label>
+          <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="Enter Your Review">
+          <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
+        </div>
+        <input type="hidden" name="productid" value="{{product.id}}">
+        <input type="hidden" name="customer_id" value="{{request.session.customer_id}}">
+        <input type="submit" name="" value="Post" style="background-color:#0e2852; "
+          class="btn btn-info mx-2 my-3 col-lg-2">
+        <h4> All reviews above<h4>
+      </form>
     </div>
   </div>
 </div>
@@ -105,40 +114,43 @@
 <div class="container">
   <div class="row">
     <div class="col-md-2"></div>
-      <div class="col-md-10">
-                  <div class="form-group">
-                      <label for="exampleInputEmail1"><h3>Post Your Review Here !</h3></label>
-                      <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your Review">
-                      <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
-                    </div>
-                    <!--modalll--->
-                    <button  type="button" style="background-color:#0e2852;"   class="btn btn-info mx-2 my-3 col-lg-2" data-toggle="modal" data-target="#exampleModal">
-                      Post
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                              You have to login to add  review  or to add items to your cart                        </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-                      </div>
-                    </div>
-                    </div>
-                    </div>
-                    <!--modall--->
-                    <!---modal end-->
-       </div>
+    <div class="col-md-10">
+      <div class="form-group">
+        <label for="exampleInputEmail1">
+          <h3>Post Your Review Here !</h3>
+        </label>
+        <input type="text" name="review" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Enter Your Review">
+        <small id="emailHelp" class="form-text text-muted">Share Your Thoughts About our product</small>
+      </div>
+      <!--modalll--->
+      <button type="button" style="background-color:#0e2852;" class="btn btn-info mx-2 my-3 col-lg-2"
+        data-toggle="modal" data-target="#exampleModal">
+        Post
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Login First</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              You have to login to add review or to add items to your cart </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--modall--->
+      <!---modal end-->
+    </div>
   </div>
 </div>
- {% endif %}
-
+{% endif %}
 
 {% endblock %}
